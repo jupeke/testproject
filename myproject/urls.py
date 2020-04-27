@@ -23,4 +23,6 @@ urlpatterns = [
     path('', views.home, name='url_home'),
     re_path(r'^discussions/(?P<discussion_id>\d+)/$', views.discussion_topics,
             name='url_discussion_topics'),
+    re_path(r'^discussions/(?P<discussion_id>\d+)/new/$', views.new_topic,
+            name='url_new_topic'),
 ]

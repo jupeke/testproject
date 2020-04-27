@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.urls import resolve
 from django.test import TestCase
-from .views import home, discussion_topics #metodinkin voi näin tuoda.
+from .views import home, discussion_topics, new_topic #metodinkin voi näin tuoda.
 from .models import Discussion
 
 # Create your tests here.
@@ -38,7 +38,7 @@ class DiscussionTopicsTests(TestCase):
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
-    def test_discussion_topics_url_resolves_board_discussions_view(self):
+    def test_discussion_topics_url_resolves_discussions_view(self):
         view = resolve('/discussions/1/')
         self.assertEquals(view.func, discussion_topics)
 
@@ -49,3 +49,37 @@ class DiscussionTopicsTests(TestCase):
 
         #{0} refers to the 1st param of format function.
         self.assertContains(response, 'href="{0}"'.format(home_url))
+
+class NewTopicsTests(TestCase):
+    def setUp(self):
+        Discussion.objects.create(name='Django', description='Django discussion')
+
+    def test_new_topic_view_success_status_code(self):
+        url = reverse('url_new_topic', kwargs={'discussion_id': 1})
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_new_topic_view_not_found_status_code(self):
+        url = reverse('url_new_topic', kwargs={'discussion_id': 99})
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 404)
+
+    def test_new_topic_url_resolves_new_topic_view(self):
+        view = resolve('/discussions/1/new/')
+        self.assertEquals(view.func, new_topic)
+
+    def test_new_topic_view_contains_link_to_home_page(self):
+        url = reverse('url_new_topic', kwargs={'discussion_id':1})
+        response = self.client.get(url)
+        home_url = reverse('url_home')
+
+        #{0} refers to the 1st param of format function.
+        self.assertContains(response, 'href="{0}"'.format(home_url))
+
+    def test_new_topic_view_contains_link_to_discussion(self):
+        url = reverse('url_new_topic', kwargs={'discussion_id':1})
+        response = self.client.get(url)
+        topics_url = reverse('url_discussion_topics', kwargs={'discussion_id':1})
+
+        #{0} refers to the 1st param of format function.
+        self.assertContains(response, 'href="{0}"'.format(topics_url))
