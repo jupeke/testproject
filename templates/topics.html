@@ -10,7 +10,9 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{%url 'url_new_topic' discussion.pk%}">New Topic</a>
+    <div class="mb-4">
+      <a class="btn btn-primary" href="{%url 'url_new_topic' discussion.pk%}">New Topic</a>
+    </div>
     <table class="table">
     <thead class="thead-inverse">
       <tr>
@@ -25,10 +27,10 @@
       {% for topic in discussion.topics.all %}
         <tr>
           <td>{{ topic.subject }}</td>
-          <td>{{ topic.starter.username }}</td>
-          <td>0</td>
-          <td>0</td>
-          <td>{{ topic.last_updated }}</td>
+          <td class="text-center">{{ topic.starter.username }}</td>
+          <td class="text-center">0</td>
+          <td class="text-center">0</td>
+          <td class="text-left">{{ topic.last_updated }}</td>
         </tr>
       {% endfor %}
     </tbody>
