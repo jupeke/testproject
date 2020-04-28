@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
 from discussions import views
-
+from django.contrib.auth import views as auth_views
 from accounts import views as accounts_views
 
 urlpatterns = [
