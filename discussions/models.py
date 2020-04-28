@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 # Sub class of Model class:
 class Discussion(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    description = models.CharField(max_length=100)
 
+    description = models.CharField(max_length=100)
     def __str__(self):
         return "Discussion about " + self.name
 
