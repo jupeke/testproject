@@ -28,5 +28,6 @@ urlpatterns = [
     re_path(r'^discussions/(?P<discussion_id>\d+)/new/$', views.new_topic,
             name='url_new_topic'),
     path('signup/', accounts_views.signup, name='url_signup'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='url_login'),
     path('logout/', auth_views.LogoutView.as_view(), name='url_logout'),
 ]
