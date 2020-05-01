@@ -30,6 +30,9 @@ urlpatterns = [
         name='url_new_topic'
     ),
     path('signup/', accounts_views.signup, name='url_signup'),
+
+    path('account/', accounts_views.my_account, name='url_account'),
+
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),
         name='url_login'
     ),
