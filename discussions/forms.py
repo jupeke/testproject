@@ -19,7 +19,13 @@ class EditTopicForm(forms.ModelForm):
         model = Topic
         fields = ['subject']
 
+# Ite tein ennen seuraavaa. Ihan samaa voisi käyttää.
 class EditPostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['message']
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['message', ]

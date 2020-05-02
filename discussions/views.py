@@ -4,7 +4,7 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from .models import Discussion, User, Topic, Post
 # Create your views here.
-from .forms import NewTopicForm, EditTopicForm, EditPostForm
+from .forms import NewTopicForm, EditTopicForm, EditPostForm, PostForm
 def home(request):
     discussions = Discussion.objects.all()
     return render(request, 'home.html', {'discussions': discussions})
@@ -39,10 +39,31 @@ def new_topic(request, discussion_id):
                 topic=topic,
                 created_by=request.user
             )
-            return redirect('url_discussion_topics', discussion_id=disc.pk)
+            return redirect(
+                'url_topic_posts', discussion_id=disc.pk, topic_id=topic.pk)
     else:
         form = NewTopicForm()
     return render(request, 'new_topic.html', {'discussion': disc, 'form':form})
+
+@login_required
+def reply_topic(request, discussion_id, topic_id):
+    topic = get_object_or_404(Topic, discussion__pk=discussion_id, pk=topic_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)  # Does not save into db
+            post.topic = topic
+            post.created_by = request.user
+            post.save()
+            return redirect(
+                'url_topic_posts',
+                discussion_id=topic.discussion.pk,
+                topic_id=topic.pk
+            )
+    else:
+        form = PostForm()
+    return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
+
 
 # Note: this both shows a new topic form and saves a new topic. Seems to be
 # the normal way with django.

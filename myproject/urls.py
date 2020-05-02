@@ -44,6 +44,10 @@ urlpatterns = [
         name='url_edit_post'
     ),
 
+    re_path(r'^discussions/(?P<discussion_id>\d+)/topics/(?P<topic_id>\d+)/reply/$',
+        views.reply_topic, name='url_reply_topic'
+    ),
+
     path('signup/', accounts_views.signup, name='url_signup'),
 
 
