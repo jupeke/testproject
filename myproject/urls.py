@@ -29,7 +29,23 @@ urlpatterns = [
     re_path(r'^discussions/(?P<discussion_id>\d+)/new/$', views.new_topic,
         name='url_new_topic'
     ),
+    re_path(r'^discussions/(?P<discussion_id>\d+)/topics/(?P<topic_id>\d+)/$',
+        views.topic_posts,
+        name='url_topic_posts'
+    ),
+
+    re_path(r'^discussions/(?P<discussion_id>\d+)/topics/(?P<topic_id>\d+)/edit/$',
+        views.edit_topic,
+        name='url_edit_topic'
+    ),
+
+    re_path(r'^discussions/(?P<discussion_id>\d+)/topics/(?P<topic_id>\d+)/posts/(?P<post_id>\d+)/edit/$',
+        views.edit_post,
+        name='url_edit_post'
+    ),
+
     path('signup/', accounts_views.signup, name='url_signup'),
+
 
     path('account/', accounts_views.my_account, name='url_account'),
 

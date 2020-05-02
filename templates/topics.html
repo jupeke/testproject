@@ -11,7 +11,9 @@
 
 {% block content %}
     <div class="mb-4">
-      <a class="btn btn-primary" href="{%url 'url_new_topic' discussion.pk%}">New Topic</a>
+      <a class="btn btn-primary" href="{%url 'url_new_topic' discussion.pk%}">
+        New Topic
+      </a>
     </div>
     <table class="table">
     <thead class="thead-inverse">
@@ -21,16 +23,27 @@
         <th>Replies</th>
         <th>Views</th>
         <th>Last Update</th>
+        <th>Edit</th>
       </tr>
     </thead>
     <tbody>
       {% for topic in discussion.topics.all %}
         <tr>
-          <td>{{ topic.subject }}</td>
+          <td><a href="{%url 'url_topic_posts' discussion.pk topic.pk%}">
+            {{ topic.subject }}</a>
+          </td>
           <td class="text-center">{{ topic.starter.username }}</td>
           <td class="text-center">0</td>
           <td class="text-center">0</td>
           <td class="text-left">{{ topic.last_updated }}</td>
+          <td class="text-left">
+            {% if topic.starter == user %}
+              <a class="btn btn-default"
+                href="{%url 'url_edit_topic' discussion.pk topic.pk%}">
+                Edit
+              </a>
+            {% endif %}
+          </td>
 
         </tr>
       {% endfor %}

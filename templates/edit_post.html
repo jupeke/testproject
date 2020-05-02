@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %} <!--pip install django-widget-tweaks-->
+{% block title %}Edit Post{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'url_home' %}">
+      Discussions
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'url_discussion_topics' discussion.pk %}">
+      {{ discussion.name }}
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'url_topic_posts' discussion.pk topic.pk %}">
+      {{ topic.subject }}
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'url_edit_post' discussion.pk topic.pk post.pk %}">
+      {{ post.message }}
+    </a>
+  </li>
+  <li class="breadcrumb-item active">Edit</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+{% endblock %}
