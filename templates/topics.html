@@ -33,7 +33,7 @@
             {{ topic.subject }}</a>
           </td>
           <td class="text-center">{{ topic.starter.username }}</td>
-          <td class="text-center">0</td>
+          <td class="text-center">{{topic.get_replies_count}}</td>
           <td class="text-center">0</td>
           <td class="text-left">{{ topic.last_updated }}</td>
           <td class="text-left">

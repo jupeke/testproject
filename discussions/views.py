@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from .models import Discussion, User, Topic, Post
+from django.utils import timezone
+
 # Create your views here.
 from .forms import NewTopicForm, EditTopicForm, EditPostForm, PostForm
 def home(request):
@@ -55,6 +57,8 @@ def reply_topic(request, discussion_id, topic_id):
             post.topic = topic
             post.created_by = request.user
             post.save()
+            topic.last_updated = timezone.now()
+            topic.save()
             return redirect(
                 'url_topic_posts',
                 discussion_id=topic.discussion.pk,
@@ -76,7 +80,9 @@ def edit_topic(request, discussion_id, topic_id):
     if request.method == 'POST':
         form = EditTopicForm(request.POST, instance = topic)
         if form.is_valid():
-            topic = form.save()
+            topic = form.save(commit=False)
+            topic.last_updated = timezone.now() # save did not do it automatically..
+            topic.save()
             return redirect('url_discussion_topics', discussion_id=disc.pk)
     else:
         form = EditTopicForm(instance = topic)
@@ -94,6 +100,8 @@ def edit_post(request, discussion_id, topic_id, post_id):
         form = EditPostForm(request.POST, instance = post)
         if form.is_valid():
             post = form.save()
+            topic.last_updated = timezone.now()
+            topic.save()
             return redirect(
                 'url_topic_posts',
                 discussion_id=disc.pk,

@@ -21,9 +21,9 @@
             <a href="{% url 'url_discussion_topics' d.pk %}">{{ d.name }}</a>
             <small class="text-muted d-block">{{ d.description }}</small>
           </td>
-          <td class="text-center">0</td>
-          <td class="text-center">0</td>
-          <td class="text-center"></td>
+          <td class="text-center">{{d.get_posts_count}}</td>
+          <td class="text-center">{{d.get_topics_count}}</td>
+          <td class="text-center">{{d.get_last_post}}</td>
         </tr>
       {% endfor %}
   </tbody>
