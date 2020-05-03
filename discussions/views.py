@@ -93,8 +93,8 @@ def edit_topic(request, discussion_id, topic_id):
 def edit_post(request, discussion_id, topic_id, post_id):
     disc = get_object_or_404 (Discussion, pk=discussion_id)
     topic = get_object_or_404 (Topic, pk=topic_id)
-    post = get_object_or_404 (Post, pk=post_id)
 
+    post = get_object_or_404 (Post, pk=post_id)
     # POST -> user is submitting date to the server.
     if request.method == 'POST':
         form = EditPostForm(request.POST, instance = post)

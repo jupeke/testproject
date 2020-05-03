@@ -52,3 +52,7 @@ class Post(models.Model):
     def __str__(self):
         truncated_message = Truncator(self.message)
         return truncated_message.chars(30)
+
+    def get_mess(self):
+        truncated_message = Truncator(self.message)
+        return truncated_message.chars(15)
