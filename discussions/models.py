@@ -30,8 +30,10 @@ class Topic(models.Model):
         related_name='topics')
     starter = models.ForeignKey(User, on_delete=models.CASCADE,
         related_name='topics')
+    views = models.PositiveIntegerField(default=0)  # <- here
 
     # Number of Replys related to this Topic (excludin the starter post):
+    # Note: this can be done in another way: see view!
     def get_replies_count(self):
         return Post.objects.filter(topic=self).count()-1
 

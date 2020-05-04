@@ -4,6 +4,7 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from .models import Discussion, User, Topic, Post
 from django.utils import timezone
+from django.db.models import Count
 
 # Create your views here.
 from .forms import NewTopicForm, EditTopicForm, EditPostForm, PostForm
@@ -14,13 +15,28 @@ def home(request):
 # Param discussion_id is defined in the urls.py
 def discussion_topics(request, discussion_id):
     disc = get_object_or_404 (Discussion, pk=discussion_id)
-    return render(request, 'topics.html', {'discussion': disc})
+    '''
+    This is a very interestin way of ordering the topics. At the same time
+    a new column 'numbOfReplies' is created on the go. See topics.html.
+    '''
+    topics_of_discussion = \
+        disc.topics.order_by('-last_updated'). \
+            annotate(numbOfReplies=Count('posts')-1)
+
+    # Note that the names 'in quotes' are available in the topics.html:
+    return render(request, 'topics.html',
+        {'discussion': disc, 'topics': topics_of_discussion})
 
 # Param discussion_id and topic_id is defined in the urls.py
 # Note discussion__pk with 2x "_" to get the current discussion primary key.
 def topic_posts(request, discussion_id, topic_id):
     curr_topic = get_object_or_404 (Topic, discussion__pk=discussion_id, pk=topic_id)
+
+    # One added always someone loads the page showing the post:
+    curr_topic.views += 1
     return render(request, 'topic_posts.html', {'topic': curr_topic})
+    curr_topic.save()
+
 
 # Note: this both shows a new topic form and saves a new topic. Seems to be
 # the normal way with django.

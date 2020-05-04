@@ -18,28 +18,29 @@
     <table class="table">
     <thead class="thead-inverse">
       <tr>
-        <th>Topic</th>
-        <th>Starter</th>
-        <th>Replies</th>
-        <th>Views</th>
-        <th>Last Update</th>
-        <th>Edit</th>
+        <th class="text-center">Topic</th>
+        <th class="text-center">Starter</th>
+        <th class="text-center">Replies</th>
+        <th class="text-center">Views</th>
+        <th class="text-center">Last Update</th>
+        <th class="text-center">Edit</th>
       </tr>
     </thead>
     <tbody>
-      {% for topic in discussion.topics.all %}
+      {% for topic in topics %}
         <tr>
-          <td><a href="{%url 'url_topic_posts' discussion.pk topic.pk%}">
-            {{ topic.subject }}</a>
+          <td class="align-middle">
+            <a href="{%url 'url_topic_posts' discussion.pk topic.pk%}">
+              {{ topic.subject }}
+            </a>
           </td>
-          <td class="text-center">{{ topic.starter.username }}</td>
-          <td class="text-center">{{topic.get_replies_count}}</td>
-          <td class="text-center">0</td>
-          <td class="text-left">{{ topic.last_updated }}</td>
-          <td class="text-left">
+          <td class="text-center align-middle">{{ topic.starter.username }}</td>
+          <td class="text-center align-middle">{{topic.numbOfReplies}}</td>
+          <td class="text-center align-middle">{{topic.views}}</td>
+          <td class="text-center align-middle">{{ topic.last_updated }}</td>
+          <td class="text-center align-middle">
             {% if topic.starter == user %}
-              <a class="btn btn-default"
-                href="{%url 'url_edit_topic' discussion.pk topic.pk%}">
+              <a href="{%url 'url_edit_topic' discussion.pk topic.pk%}">
                 Edit
               </a>
             {% endif %}

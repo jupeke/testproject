@@ -24,7 +24,7 @@
           <td class="text-center align-middle">{{d.get_posts_count}}</td>
           <td class="text-center align-middle">{{d.get_topics_count}}</td>
           <td class="text-center align-middle">{{d.get_mess}}
-            {% if d.get_topics_count != 0 %}
+            {% if d.get_topics_count != 0 %} <!--if post riittäisi alemmaksi-->
               {% with post=d.get_last_post %}
                 <small>
                   <a href="{% url 'url_topic_posts' d.pk post.topic.pk %}">
@@ -33,7 +33,7 @@
                 </small>
               {% endwith %}
             {% else%}
-              ---
+              <span class="text-muted"></span>
             {% endif%}
           </td>
         </tr>

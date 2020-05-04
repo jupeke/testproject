@@ -90,7 +90,7 @@ class SuccessfulReplyTopicTests(ReplyTopicTestCase):
         self.assertEquals(Post.objects.count(), 2)
 
 
-        class InvalidReplyTopicTests(ReplyTopicTestCase):
+class InvalidReplyTopicTests(ReplyTopicTestCase):
     def setUp(self):
         super().setUp()
         self.client.login(username=self.username, password=self.password)
