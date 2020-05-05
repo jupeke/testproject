@@ -32,7 +32,7 @@ urlpatterns = [
         name='url_new_topic'
     ),
     re_path(r'^discussions/(?P<discussion_id>\d+)/topics/(?P<topic_id>\d+)/$',
-        views.topic_posts,
+        views.PostListView.as_view(),
         name='url_topic_posts'
     ),
 

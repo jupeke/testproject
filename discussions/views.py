@@ -22,12 +22,13 @@ def home(request):
 
 # Param discussion_id is defined in the urls.py
 # This works but the class approach is now used instead.
+'''
 def discussion_topics(request, discussion_id):
     disc = get_object_or_404 (Discussion, pk=discussion_id)
-    '''
+    ''
     This is a very interestin way of ordering the topics. At the same time
     a new column 'numbOfReplies' is created on the go. See topics.html.
-    '''
+    ''
     topics_of_discussion = \
         disc.topics.order_by('-last_updated'). \
             annotate(numbOfReplies=Count('posts')-1)
@@ -47,7 +48,7 @@ def discussion_topics(request, discussion_id):
     # Note that the names 'in quotes' are available in the topics.html:
     return render(request, 'topics.html',
         {'discussion': disc, 'topics': topics_paginated})
-
+'''
 # This does the same as function above:
 class TopicListView(ListView):
     model = Topic
@@ -69,6 +70,7 @@ class TopicListView(ListView):
 
 # Param discussion_id and topic_id is defined in the urls.py
 # Note discussion__pk with 2x "_" to get the current discussion primary key.
+'''
 def topic_posts(request, discussion_id, topic_id):
     curr_topic = get_object_or_404 (Topic, discussion__pk=discussion_id, pk=topic_id)
 
@@ -76,7 +78,27 @@ def topic_posts(request, discussion_id, topic_id):
     curr_topic.views += 1
     return render(request, 'topic_posts.html', {'topic': curr_topic})
     curr_topic.save()
+'''
+# This replaces the function above:
+class PostListView(ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'topic_posts.html'
+    paginate_by = 2
 
+    def get_context_data(self, **kwargs):
+        self.topic.views += 1
+        self.topic.save()
+        kwargs['topic'] = self.topic
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(
+            Topic,
+            discussion__pk=self.kwargs.get('discussion_id'),
+            pk=self.kwargs.get('topic_id'))
+        queryset = self.topic.posts.order_by('created_at')
+        return queryset
 
 # Note: this both shows a new topic form and saves a new topic. Seems to be
 # the normal way with django.

@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import resolve, reverse
 
 from ..models import Discussion
-from ..views import discussion_topics, TopicListView
+from ..views import TopicListView
 
 class DiscussionTopicsTests(TestCase):
     def setUp(self):
