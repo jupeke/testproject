@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import resolve, reverse
 
 from ..models import Discussion
-from ..views import discussion_topics
+from ..views import discussion_topics, TopicListView
 
 class DiscussionTopicsTests(TestCase):
     def setUp(self):
@@ -18,9 +18,9 @@ class DiscussionTopicsTests(TestCase):
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
 
-    def test_discussion_topics_url_resolves_discussions_view(self):
+    def test_discussion_topics_url_resolves_discussion_topics_view(self):
         view = resolve('/discussions/1/')
-        self.assertEquals(view.func, discussion_topics)
+        self.assertEquals(view.func.view_class, TopicListView)
 
     def test_discussion_topics_view_contains_links(self):
         topics_url = reverse('url_discussion_topics', kwargs={'discussion_id':1})

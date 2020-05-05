@@ -23,7 +23,9 @@ from accounts import views as accounts_views
 urlpatterns = [
     path('admin/', admin.site.urls, name= 'url_admin'),
     path('', views.home, name='url_home'),
-    re_path(r'^discussions/(?P<discussion_id>\d+)/$', views.discussion_topics,
+    re_path(
+        r'^discussions/(?P<discussion_id>\d+)/$',
+        views.TopicListView.as_view(),
         name='url_discussion_topics'
     ),
     re_path(r'^discussions/(?P<discussion_id>\d+)/new/$', views.new_topic,
@@ -40,7 +42,7 @@ urlpatterns = [
     ),
 
     re_path(r'^discussions/(?P<discussion_id>\d+)/topics/(?P<topic_id>\d+)/posts/(?P<post_id>\d+)/edit/$',
-        views.edit_post,
+        views.PostUpdateView.as_view(),
         name='url_edit_post'
     ),
 

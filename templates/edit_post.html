@@ -9,17 +9,18 @@
     </a>
   </li>
   <li class="breadcrumb-item">
-    <a href="{% url 'url_discussion_topics' discussion.pk %}">
-      {{ discussion.name }}
+  </li>
+    <a href="{% url 'url_discussion_topics' post.topic.discussion.id %}">
+      {{ post.topic.discussion.name }}
     </a>
   </li>
   <li class="breadcrumb-item">
-    <a href="{% url 'url_topic_posts' discussion.pk topic.pk %}">
-      {{ topic.subject }}
+    <a href="{% url 'url_topic_posts' post.topic.discussion.pk post.topic.pk %}">
+      {{ post.topic.subject }}
     </a>
   </li>
   <li class="breadcrumb-item">
-    <a href="{% url 'url_edit_post' discussion.pk topic.pk post.pk %}">
+    <a href="{% url 'url_edit_post' post.topic.discussion.pk post.topic.pk post.pk %}">
       {{ post.message }}
     </a>
   </li>
@@ -32,4 +33,5 @@
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Save</button>
   </form>
-{% endblock %}
+
+  {% endblock %}
