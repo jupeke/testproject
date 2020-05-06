@@ -4,8 +4,13 @@
 
 {% block title %}Post a reply{% endblock %}
 
+{% block stylesheet %}
+  <link rel="stylesheet" \
+    href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endblock %}
+
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'url_home' %}">Boards</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'url_home' %}">Discussions</a></li>
   <li class="breadcrumb-item">
     <a href="{% url 'url_discussion_topics' topic.discussion.pk %}">
       {{ topic.discussion.name }}
@@ -21,7 +26,7 @@
 
 {% block content %}
 
-  <form method="post" class="mb-4">
+  <form method="post" class="mb-4" novalidate>
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Post a reply</button>
@@ -38,11 +43,19 @@
             <small class="text-muted">{{ post.created_at }}</small>
           </div>
         </div>
-        {{ post.message }}
+        {{ post.get_message_as_markdown }}
       </div>
     </div>
   {% endfor %}
 
 {% endblock %}
 
-Reply form
+{% block javascript %}
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+  <script>
+    // Transforms the 1st text area it founds into a markdown editor :)
+    // Interesting: form did not submit without parameter {forceSync: true}.
+    // It began to work without after adding novalidate attr to the form!
+    var simplemde = new SimpleMDE()
+  </script>
+{% endblock %}

@@ -2,6 +2,11 @@
 {% load widget_tweaks %} <!--pip install django-widget-tweaks-->
 {% block title %}Start a New Topic{% endblock %}
 
+{% block stylesheet %}
+  <link rel="stylesheet" \
+    href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endblock %}
+
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'url_home' %}">Discussions</a></li>
   <li class="breadcrumb-item"><a href="{% url 'url_discussion_topics' discussion.pk %}">
@@ -15,4 +20,11 @@
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Post</button>
   </form>
+{% endblock %}
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script>
+  // Transforms the 1st text area it founds into a markdown editor :)
+  var simplemde = new SimpleMDE()
+</script>
 {% endblock %}

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import Truncator
+from django.utils.html import mark_safe
+from markdown import markdown
 
 # Sub class of Model class:
 class Discussion(models.Model):
@@ -58,3 +60,6 @@ class Post(models.Model):
     def get_mess(self):
         truncated_message = Truncator(self.message)
         return truncated_message.chars(15)
+
+    def get_message_as_markdown(self):
+        return mark_safe(markdown(self.message, safe_mode='escape'))

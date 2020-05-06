@@ -137,6 +137,7 @@ def reply_topic(request, discussion_id, topic_id):
             post.save()
             topic.last_updated = timezone.now()
             topic.save()
+        
             return redirect(
                 'url_topic_posts',
                 discussion_id=topic.discussion.pk,
